@@ -44,18 +44,38 @@ A minimal C++ project scaffold for Visual Studio Code on Windows — includes a 
 ## Quick look
 
 ```cpp
+#include <iostream>
 #include <raylib.h>
+using namespace std;
 
 int main()
 {
-    InitWindow(800, 450, "My first RAYLIB program!");
+    const int SCREEN_WIDTH = 800;
+    const int SCREEN_HEIGHT = 600;
+
+    int ball_x = 100;
+    int ball_y = 100;
+    int ball_speed_x = 5;
+    int ball_speed_y = 5;
+    int ball_radius = 15;
+
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "My first RAYLIB program!");
     SetTargetFPS(60);
 
-    while (!WindowShouldClose())
+    while (WindowShouldClose() == false)
     {
+        ball_x += ball_speed_x;
+        ball_y += ball_speed_y;
+
+        if (ball_x + ball_radius >= SCREEN_WIDTH || ball_x - ball_radius <= 0)
+            ball_speed_x *= -1;
+
+        if (ball_y + ball_radius >= SCREEN_HEIGHT || ball_y - ball_radius <= 0)
+            ball_speed_y *= -1;
+
         BeginDrawing();
-            ClearBackground(DARKGREEN);
-            DrawCircle(400, 225, 20, RED);
+            ClearBackground(BLACK);
+            DrawCircle(ball_x, ball_y, ball_radius, WHITE);
         EndDrawing();
     }
 
